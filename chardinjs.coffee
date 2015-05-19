@@ -126,6 +126,8 @@ do ($ = window.jQuery, window) ->
     _place_tooltip: (element) ->
       tooltip_layer = $(element).data('tooltip_layer')
       tooltip_layer_position = @._get_offset(tooltip_layer)
+      if tooltip_layer_position.width < 210
+        tooltip_layer_position.width = 210
 
       #reset the old style
       tooltip_layer.style.top = null
