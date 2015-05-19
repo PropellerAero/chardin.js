@@ -67,6 +67,10 @@
   opacity: 0.8;
 }
 
+.chardinjs-show-always {
+  @extend .chardinjs-show-element;
+}
+
 .chardinjs-relative-position {
   position: relative;
 }
