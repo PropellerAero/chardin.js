@@ -74,7 +74,7 @@
   .chardinjs-tooltip.chardinjs-left:after {
     right: -100px; }
 
-.chardinjs-show-element {
+.chardinjs-show-element, .chardinjs-show-always {
   z-index: 9999999;
   opacity: 0.8; }
 
