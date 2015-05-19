@@ -5,17 +5,21 @@ do ($ = window.jQuery, window) ->
       @$el = $(el)
       @sequenced = if @$el.data('sequenced') then true else false
       @sequencedItems = @_getSequencedElements()
-      @sequenceIdx = 0
-      @timeOut = null
       @isAuto = if @$el.data('auto') then true else false
       @delayTime = @$el.data('delay') || 2000
+      @inProgress = false
+      @sequenceIdx = 0
+      @timeOut = null
       $(window).resize =>
         @.refresh()
 
 
     start: ->
-      return false if @._overlay_visible()
+      return false if @inProgress
+      @inProgress = true
+
       @._add_overlay_layer()
+
       if !@sequenced
         @._show_element(el) for el in @$el.find('*[data-intro]')
       else
@@ -24,13 +28,13 @@ do ($ = window.jQuery, window) ->
       @$el.trigger 'chardinJs:start'
 
     toggle: () ->
-      if not @._overlay_visible()
+      if not @inProgress
         @.start()
       else
         @.stop()
 
     refresh: ()->
-      if @._overlay_visible()
+      if @inProgress
         @._position_helper_layer(el) for el in @$el.find('*[data-intro]:visible')
       else
         this
@@ -50,6 +54,8 @@ do ($ = window.jQuery, window) ->
       else document.detachEvent "onkeydown", @_onKeyDown  if document.detachEvent
 
       @sequenceIdx = 0
+      @inProgress = false
+      @$el.removeData()
       @$el.trigger 'chardinJs:stop'
 
     next: (delayed) ->
